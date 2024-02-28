@@ -43,7 +43,7 @@ def partial_date_str_to_time(today, date_str):
     month, day = date_str.split(" ")
     return time.time(year = today.year, month = month_to_int(month), day = int(day))
 
-def main(config):
+def main():
     resp = get_data(SELLANDS_MENU_URL)
 
     doc = html(resp.body())
