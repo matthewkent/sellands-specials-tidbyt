@@ -1,7 +1,7 @@
 """
 Applet: Sellands Specials
 Summary: Selland's weekly specials
-Description: Show weekly dinner-for-two specials at Selland's restaurants.
+Description: Show weekly dinner for two specials at Selland's restaurants.
 Author: Matt Kent
 """
 
