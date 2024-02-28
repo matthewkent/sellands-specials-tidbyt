@@ -10,7 +10,6 @@ load("http.star", "http")
 load("humanize.star", "humanize")
 load("re.star", "re")
 load("render.star", "render")
-load("schema.star", "schema")
 load("time.star", "time")
 
 SELLANDS_MENU_URL = "https://www.sellands.com/menu/specials"
@@ -27,11 +26,11 @@ UPCASE_MONTH_TO_INT = {
     "SEPTEMBER": 9,
     "OCTOBER": 10,
     "NOVEMBER": 11,
-    "DECEMBER": 12
+    "DECEMBER": 12,
 }
 
 def get_data(url):
-    res = http.get(url, ttl_seconds=3600) # cache for 1 hour
+    res = http.get(url, ttl_seconds = 3600)  # cache for 1 hour
     if res.status_code != 200:
         fail("GET %s failed with status %d: %s", url, res.status_code, res.body())
     return res
@@ -42,7 +41,7 @@ def month_to_int(month):
 # Convert "FEBRUARY 7" to a Time object at 2024-02-07T00:00:00
 def partial_date_str_to_time(today, date_str):
     month, day = date_str.split(" ")
-    return time.time(year=today.year, month=month_to_int(month), day=int(day))
+    return time.time(year = today.year, month = month_to_int(month), day = int(day))
 
 def main(config):
     resp = get_data(SELLANDS_MENU_URL)
@@ -61,13 +60,14 @@ def main(config):
         start_date_str, end_date_str = re.findall("\\w+\\s+\\d+", date_range)
         start_date = partial_date_str_to_time(today, start_date_str.strip())
         end_date = partial_date_str_to_time(today, end_date_str.strip())
+
         # Adjust end date to midnight of the next day
         end_date = end_date + (time.hour * 24)
 
         monthly_menu.append({
             "description": item.find(".menu-item-description").first().text(),
             "start_date": start_date,
-            "end_date": end_date
+            "end_date": end_date,
         })
 
     title_text = "@Sellands"
@@ -94,14 +94,13 @@ def main(config):
                 children = [
                     render.Text(
                         content = title_text,
-                        color = "5c462d"
+                        color = "5c462d",
                     ),
                     render.WrappedText(
                         content = menu_text,
-                        color = "bca529"
-                    )
-                ]
-            )
-        )
+                        color = "bca529",
+                    ),
+                ],
+            ),
+        ),
     )
-
